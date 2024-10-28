@@ -12,17 +12,16 @@ export class IsMineGuard implements CanActivate {
         const paramId = isNaN(parseInt(request.params.id)) ? 0 : parseInt(request.params.id);
 
         switch (route) {
-            // case 'posts':
-            //     const post = await this.prismaService.post.findFirst({
-            //         where: {
-            //             id: paramId,
-            //             authorId: request.user.sub,
-            //         }
-            //     });
+            case 'messages':
+                const message = await this.prismaService.message.findFirst({
+                    where: {
+                        id: paramId,
+                        userId: request.user.sub,
+                    },
+                });
 
-            //     return paramId === post?.id;
+                return paramId == message?.id;
             default:
-                // request.user.sub -> id user
                 return paramId === request.user.sub;
         }
 
