@@ -32,15 +32,47 @@ export class MessagesService {
         }
     }
 
+    async getMessageById(id: number): Promise<Message> {
+        try {
+            const message = await this.prisma.message.findUniqueOrThrow({
+                where: { id },
+            });
+
+            return message;
+        } catch (error) {
+            // check if post not found and throw error
+            if (error.code === 'P2025') {
+                throw new NotFoundException(`Message with id ${id} not found`);
+            }
+
+            // throw error if any
+            throw new HttpException(error, 500);
+        }
+    }
+
     async getAllMessages(query?: QueryPaginationDto): Promise<PaginateOutput<Message>> {
         const [messages, total] = await Promise.all([
             await this.prisma.message.findMany({
                 ...paginate(query),
+                include: {
+                    _count: {
+                        select: {
+                            likes: true,
+                        }
+                    }
+                }
             }),
             await this.prisma.message.count(),
         ]);
 
-        return paginateOutput(messages, total, query);
+        const formattedMessages = messages.map(message => ({
+            ...message,
+            likesCount: message._count.likes,  // Add the likes count to the message
+            _count: undefined,
+        }));
+
+        return paginateOutput(formattedMessages, total, query);
+
     }
 
     async updateMessage(id: number, updateMessageDto: UpdateMessageDto): Promise<Message> {
