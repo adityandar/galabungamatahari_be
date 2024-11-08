@@ -1,8 +1,12 @@
-import { Body, Controller, Get, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { MessagesService } from "./messages.service";
 import { Message } from "@prisma/client";
 import { CreateMessageDto } from "./dtos/create-message.dto";
 import { ExpressRequestWithUser } from "../users/interfaces/express-request-with-user.interface";
+import { UpdateMessageDto } from "./dtos/update-message.dto";
+import { IsMineGuard } from "src/common/guards/is-mine.guard";
+import { QueryPaginationDto } from "src/common/dtos/query-pagination.dto";
+import { PaginateOutput } from "src/common/utils/pagination.util";
 
 @Controller('messages')
 export class MessagesController {
@@ -19,9 +23,26 @@ export class MessagesController {
     }
 
     @Get()
-    getAllMessages(): Promise<Message[]> {
-        return this.messagesService.getAllMessages();
+    getAllMessages(
+        @Query() query?: QueryPaginationDto,
+    ): Promise<PaginateOutput<Message>> {
+        return this.messagesService.getAllMessages(query);
     }
 
-    // for update and delete, use IsMineGuard()
+    @Patch(':id')
+    @UseGuards(IsMineGuard)
+    updateMessage(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() updateMessageDto: UpdateMessageDto,
+    ): Promise<Message> {
+        return this.messagesService.updateMessage(id, updateMessageDto);
+    }
+
+    @Delete(':id')
+    @UseGuards(IsMineGuard)
+    deleteMessage(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<string> {
+        return this.messagesService.deleteMessage(id);
+    }
 }
