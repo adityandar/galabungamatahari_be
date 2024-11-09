@@ -20,18 +20,18 @@ model User {
   name     String?
   messages Message[]
   likes    Like[]
-  Comment  Comment[]
+  comments Comment[]
 }
 
 model Message {
-  id      Int       @id @default(autoincrement())
-  title   String
-  message String
-  to      String
-  userId  Int?
-  user    User?     @relation(fields: [userId], references: [id])
-  likes   Like[]
-  Comment Comment[]
+  id       Int       @id @default(autoincrement())
+  title    String
+  message  String
+  to       String
+  userId   Int?
+  user     User?     @relation(fields: [userId], references: [id])
+  likes    Like[]
+  comments Comment[]
 }
 
 model Like {
@@ -44,6 +44,7 @@ model Like {
 
 model Comment {
   id        Int      @id @default(autoincrement())
+  content   String
   userId    Int?
   user      User?    @relation(fields: [userId], references: [id])
   messageId Int?

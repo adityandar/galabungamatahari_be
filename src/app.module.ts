@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './common/guards/auth.guard';
 import { MessagesModule } from './modules/messages/messages.module';
 import { LikesModule } from './modules/likes/likes.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LikesModule } from './modules/likes/likes.module';
     UsersModule,
     MessagesModule,
     LikesModule,
+    CommentsModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,

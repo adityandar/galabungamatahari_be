@@ -16,7 +16,7 @@ export class MessagesService {
             const newMessage = await this.prisma.message.create({
                 data: {
                     ...createMessageDto,
-                }
+                },
             });
 
             return newMessage;
@@ -36,9 +36,24 @@ export class MessagesService {
         try {
             const message = await this.prisma.message.findUniqueOrThrow({
                 where: { id },
+                include: {
+                    Comment: true,
+                    _count: {
+                        select: {
+                            likes: true,
+                        }
+                    }
+                }
             });
 
-            return message;
+
+            const formattedMessages = {
+                ...message,
+                likesCount: message._count.likes,  // Add the likes count to the message
+                _count: undefined,
+            };
+
+            return formattedMessages;
         } catch (error) {
             // check if post not found and throw error
             if (error.code === 'P2025') {
@@ -55,6 +70,7 @@ export class MessagesService {
             await this.prisma.message.findMany({
                 ...paginate(query),
                 include: {
+                    Comment: true,
                     _count: {
                         select: {
                             likes: true,

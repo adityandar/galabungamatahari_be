@@ -29,6 +29,13 @@ export class MessagesController {
         return this.messagesService.getAllMessages(query);
     }
 
+    @Get(':id')
+    getMessageById(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<Message> {
+        return this.messagesService.getMessageById(id);
+    }
+
     @Patch(':id')
     @UseGuards(IsMineGuard)
     updateMessage(

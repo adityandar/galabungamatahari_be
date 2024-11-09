@@ -102,3 +102,12 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 ## Improve security for rate limiter:
 
 oke bang semangat belajar, jangan lupa import helmet js, import rate-limiter/throtle buat security
+
+## Generate or Update Database ORM
+
+```npx prisma migrate dev```
+
+
+
+## Inspirasi Belajar
+- Bikin CRON di NEST
