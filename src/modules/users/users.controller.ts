@@ -5,9 +5,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 import { LoginUserDto } from './dto/login-user.do';
 import { LoginResponse, UserPayload } from './interfaces/users-login.interface';
-import { Public } from 'src/common/decorators/public.decorators';
+import { Public } from '../../common/decorators/public.decorators';
 import { ExpressRequestWithUser } from './interfaces/express-request-with-user.interface';
-import { IsMineGuard } from 'src/common/guards/is-mine.guard';
+import { IsMineGuard } from '../../common/guards/is-mine.guard';
 
 @Controller('users')
 export class UsersController {

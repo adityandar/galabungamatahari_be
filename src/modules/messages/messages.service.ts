@@ -1,11 +1,11 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { Message } from "@prisma/client";
-import { PrismaService } from "src/core/services/prisma.service";
+import { PrismaService } from "../../core/services/prisma.service";
 import { CreateMessageDto } from "./dtos/create-message.dto";
 import { create } from "domain";
 import { UpdateMessageDto } from "./dtos/update-message.dto";
-import { QueryPaginationDto } from "src/common/dtos/query-pagination.dto";
-import { paginate, paginateOutput, PaginateOutput } from "src/common/utils/pagination.util";
+import { QueryPaginationDto } from "../../common/dtos/query-pagination.dto";
+import { paginate, paginateOutput, PaginateOutput } from "../../common/utils/pagination.util";
 
 @Injectable()
 export class MessagesService {
@@ -37,7 +37,7 @@ export class MessagesService {
             const message = await this.prisma.message.findUniqueOrThrow({
                 where: { id },
                 include: {
-                    Comment: true,
+                    comments: true,
                     _count: {
                         select: {
                             likes: true,
@@ -70,7 +70,7 @@ export class MessagesService {
             await this.prisma.message.findMany({
                 ...paginate(query),
                 include: {
-                    Comment: true,
+                    comments: true,
                     _count: {
                         select: {
                             likes: true,

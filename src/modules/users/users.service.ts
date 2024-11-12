@@ -12,10 +12,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
-import { PrismaService } from 'src/core/services/prisma.service';
 import { LoginUserDto } from './dto/login-user.do';
 import { LoginResponse, UserPayload } from './interfaces/users-login.interface';
 import { create } from 'domain';
+import { PrismaService } from '../../core/services/prisma.service';
 
 
 @Injectable()

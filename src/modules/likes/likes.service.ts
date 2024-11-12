@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/core/services/prisma.service";
+import { PrismaService } from "../../core/services/prisma.service";
 import { MessagesService } from "../messages/messages.service";
 import { CreateLikeDto } from "./dtos/create-like.dto";
 import { create } from "domain";

@@ -4,9 +4,9 @@ import { Message } from "@prisma/client";
 import { CreateMessageDto } from "./dtos/create-message.dto";
 import { ExpressRequestWithUser } from "../users/interfaces/express-request-with-user.interface";
 import { UpdateMessageDto } from "./dtos/update-message.dto";
-import { IsMineGuard } from "src/common/guards/is-mine.guard";
-import { QueryPaginationDto } from "src/common/dtos/query-pagination.dto";
-import { PaginateOutput } from "src/common/utils/pagination.util";
+import { IsMineGuard } from "../../common/guards/is-mine.guard";
+import { QueryPaginationDto } from "../../common/dtos/query-pagination.dto";
+import { PaginateOutput } from "../../common/utils/pagination.util";
 
 @Controller('messages')
 export class MessagesController {
